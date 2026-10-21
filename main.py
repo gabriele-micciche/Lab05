@@ -36,7 +36,11 @@ def main(page: ft.Page):
     lista_strumenti = ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
 
     # Tutti i TextField per le info necessarie per aggiungere un nuovo strumento (tipo, marca, anno, contatore posti)
-    # TODO
+    nuovo_strumento = ft.Text("Aggiungi nuovo strumento", size=24)
+    tipo = ft.TextField(label = "Tipo")
+    marca = ft.TextField(label="Marca")
+    anno = ft.TextField(label="Anno")
+    valore = ft.TextField( value = "0", label="Valore", )
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_strumenti():
@@ -55,14 +59,65 @@ def main(page: ft.Page):
         txt_responsabile.value = f"Responsabile: {deposito.get_responsabile()}"
 
     # Handlers per la gestione dei pulsanti utili all'inserimento di un nuovo strumento
-    # TODO
+    def aggiungi_strumento(e):
+        # 1. Lettura e pulizia delle stringhe
+        tipo_str = tipo.value.strip()
+        marca_str = marca.value.strip()
+        anno_str = anno.value.strip()
+        valore_str = valore.value.strip()
+
+        # 2. Controllo se qualche campo è vuoto
+        if tipo_str == "" or marca_str == "" or anno_str == "" or valore_str == "":
+            alert.show_alert("Errore nella compilazione")
+            return
+
+        # 3. Conversione numerica sicura
+        try:
+            anno_num = int(anno_str)
+            valore_num = float(valore_str)
+        except ValueError:
+            alert.show_alert("Anno e valore devono essere numeri")
+            return
+        # 4. Aggiunta al deposito
+        deposito.aggiungi_strumento(tipo_str, marca_str, anno_num, valore_num)
+
+        # Svuotiamo i campi di testo
+        tipo.value = ""
+        marca.value = ""
+        anno.value = ""
+        valore.value = "0"
+
+        # Aggiorniamo la lista visualizzata
+        aggiorna_lista_strumenti()
+
+
+    def incrementa_valore(e):
+        # Leggiamo il valore attuale e lo convertiamo in numero
+        val_attuale = int(valore.value)
+
+        # Incrementiamo e riassegniamo il nuovo valore sotto forma di testo
+        valore.value = str(val_attuale + 1)
+
+        # Mostriamo la modifica a schermo
+        page.update()
+
+    def diminusci_valore(e):
+        # Leggiamo il valore attuale e lo convertiamo in numero
+        val_attuale = int(valore.value)
+
+        if val_attuale > 0:
+            valore.value = str(val_attuale - 1)
+            # Aggiorniamo la pagina a schermo
+            page.update()
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
     pulsante_conferma_responsabile = ft.Button("Conferma", on_click=conferma_responsabile)
 
     # Pulsanti per la gestione dell'inserimento di un nuovo strumento
-    # TODO
+    aggiungi_bottone = ft.CupertinoButton("Aggiungi Strumento", on_click=aggiungi_strumento)
+    piu = ft.CupertinoButton("+", color="green", on_click=incrementa_valore)
+    meno = ft.CupertinoButton("-", color="red", on_click=diminusci_valore)
 
     # --- LAYOUT ---
     page.add(
@@ -80,7 +135,11 @@ def main(page: ft.Page):
                alignment=ft.MainAxisAlignment.CENTER),
 
         # Sezione 3
-        # TODO
+        nuovo_strumento,
+        ft.Row(spacing=20,
+               controls=[tipo, marca, anno, meno, valore, piu],
+               alignment=ft.MainAxisAlignment.CENTER),
+        aggiungi_bottone,
 
         # Sezione 4
         ft.Divider(),
