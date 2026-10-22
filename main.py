@@ -94,7 +94,7 @@ def main(page: ft.Page):
     def incrementa_valore(e):
         # Leggiamo il valore attuale e lo convertiamo in numero
         try:
-            val_attuale = int(valore.value)
+            val_attuale = float(valore.value)
 
             # Incrementiamo e riassegniamo il nuovo valore sotto forma di testo
             valore.value = str(val_attuale + 1)
@@ -107,7 +107,7 @@ def main(page: ft.Page):
     def diminusci_valore(e):
         # Leggiamo il valore attuale e lo convertiamo in numero
         try:
-            val_attuale = int(valore.value)
+            val_attuale = float(valore.value)
 
             if val_attuale > 0:
                 valore.value = str(val_attuale - 1)
