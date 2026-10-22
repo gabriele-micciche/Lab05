@@ -75,12 +75,14 @@ def main(page: ft.Page):
         try:
             anno_num = int(anno_str)
             valore_num = float(valore_str)
-            if valore_num < 0:
-                alert.show_alert("Valore invalido")
-                return
         except ValueError:
             alert.show_alert("Anno e valore devono essere numeri")
             return
+
+        if valore_num < 0:
+            alert.show_alert("Valore invalido")
+            return
+
         # 4. Aggiunta al deposito
         deposito.aggiungi_strumento(tipo_str, marca_str, anno_num, valore_num)
 
