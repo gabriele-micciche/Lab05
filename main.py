@@ -67,7 +67,7 @@ def main(page: ft.Page):
         valore_str = valore.value.strip()
 
         # 2. Controllo se qualche campo è vuoto
-        if tipo_str == "" or marca_str == "" or anno_str == "" or valore_str == "":
+        if not tipo_str or not marca_str or not anno_str or not valore_str == "":
             alert.show_alert("Errore nella compilazione")
             return
 
