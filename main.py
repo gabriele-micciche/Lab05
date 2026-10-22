@@ -93,22 +93,28 @@ def main(page: ft.Page):
 
     def incrementa_valore(e):
         # Leggiamo il valore attuale e lo convertiamo in numero
-        val_attuale = int(valore.value)
+        try:
+            val_attuale = int(valore.value)
 
-        # Incrementiamo e riassegniamo il nuovo valore sotto forma di testo
-        valore.value = str(val_attuale + 1)
+            # Incrementiamo e riassegniamo il nuovo valore sotto forma di testo
+            valore.value = str(val_attuale + 1)
 
-        # Mostriamo la modifica a schermo
-        page.update()
+            # Mostriamo la modifica a schermo
+            page.update()
+        except ValueError:
+            alert.show_alert("Valore invalido")
 
     def diminusci_valore(e):
         # Leggiamo il valore attuale e lo convertiamo in numero
-        val_attuale = int(valore.value)
+        try:
+            val_attuale = int(valore.value)
 
-        if val_attuale > 0:
-            valore.value = str(val_attuale - 1)
-            # Aggiorniamo la pagina a schermo
-            page.update()
+            if val_attuale > 0:
+                valore.value = str(val_attuale - 1)
+                # Aggiorniamo la pagina a schermo
+                page.update()
+        except ValueError:
+            alert.show_alert("Valore invalido")
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
@@ -135,6 +141,7 @@ def main(page: ft.Page):
                alignment=ft.MainAxisAlignment.CENTER),
 
         # Sezione 3
+        ft.Divider(),
         nuovo_strumento,
         ft.Row(spacing=20,
                controls=[tipo, marca, anno, meno, valore, piu],
