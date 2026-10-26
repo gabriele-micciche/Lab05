@@ -80,7 +80,7 @@ def main(page: ft.Page):
             return
 
         if valore_num < 0:
-            alert.show_alert("Valore invalido")
+            alert.show_alert("Valore invalido, deve essere un numero positivo")
             return
 
         # 4. Aggiunta al deposito
@@ -107,7 +107,7 @@ def main(page: ft.Page):
             # Mostriamo la modifica a schermo
             page.update()
         except ValueError:
-            alert.show_alert("Valore invalido")
+            alert.show_alert("Valore invalido, deve essere un numero")
 
     def diminusci_valore(e):
         # Leggiamo il valore attuale e lo convertiamo in numero
@@ -119,7 +119,7 @@ def main(page: ft.Page):
                 # Aggiorniamo la pagina a schermo
                 page.update()
         except ValueError:
-            alert.show_alert("Valore invalido")
+            alert.show_alert("Valore invalido, deve essere un numero")
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
